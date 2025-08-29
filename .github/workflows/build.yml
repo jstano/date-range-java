@@ -1,0 +1,15 @@
+name: java-utils
+run-name: ${{ github.actor }} is building java-utils 🚀
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: azul/zulu-openjdk:21-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Build code
+        run: |
+          chmod +x gradlew
+          ./gradlew clean build publish
