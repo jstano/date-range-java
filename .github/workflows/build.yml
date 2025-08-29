@@ -12,4 +12,4 @@ jobs:
       - name: Build code
         run: |
           chmod +x gradlew
-          ./gradlew clean build publish
+          ./gradlew clean build
