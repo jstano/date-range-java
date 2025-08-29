@@ -2,8 +2,8 @@ package com.stano.daterange;
 
 import java.time.LocalDate;
 
-import static com.stano.daterange.DateUtils.addYears;
-import static com.stano.daterange.DateUtils.subtractYears;
+import static com.stano.datetime.DateUtils.addYears;
+import static com.stano.datetime.DateUtils.subtractYears;
 
 public final class AnnualDateRange {
   public static DateRange withStartDate(LocalDate startDate) {

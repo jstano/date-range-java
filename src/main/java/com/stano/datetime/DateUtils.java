@@ -1,5 +1,6 @@
-package com.stano.daterange;
+package com.stano.datetime;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
@@ -30,5 +31,13 @@ public final class DateUtils {
 
   public static LocalDate subtractYears(LocalDate d, int years) {
     return d.minusYears(years);
+  }
+
+  public static long calculateDayOfWeekOffset(LocalDate date, DayOfWeek endDay) {
+    int offset = endDay.getValue() - date.getDayOfWeek().getValue(); // Mon=1..Sun=7
+    if (offset < 0) {
+      offset += 7;
+    }
+    return offset;
   }
 }

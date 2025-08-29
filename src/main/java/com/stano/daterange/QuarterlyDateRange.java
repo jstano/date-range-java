@@ -2,7 +2,7 @@ package com.stano.daterange;
 
 import java.time.LocalDate;
 
-import static com.stano.daterange.DateUtils.*;
+import static com.stano.datetime.DateUtils.*;
 
 public final class QuarterlyDateRange {
   public static DateRange withStartDate(LocalDate startDate) {

@@ -1,6 +1,5 @@
 package com.stano.datetimerange
 
-import com.stano.integerrange.IntegerRange
 import spock.lang.Specification
 
 import java.time.LocalDateTime
@@ -148,9 +147,12 @@ class DateTimeRangeWithPeriodLengthSpec extends Specification {
 
   void testGetIndexRange() {
     def dateTimeRange = DateTimeRangeWithPeriodLength.of(startDateTime, endDateTime, periodLength)
+    def indexStream = dateTimeRange.getIndexStream()
+    def indexes = indexStream.boxed().toList()
 
     expect:
-    dateTimeRange.indexRange == IntegerRange.of(startIndex, endIndex)
+    indexes.get(0) == startIndex
+    indexes.get(indexes.size() - 1) == endIndex
 
     where:
     startDateTime                    | endDateTime                      | periodLength | startIndex | endIndex

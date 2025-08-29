@@ -2,8 +2,8 @@ package com.stano.daterange;
 
 import java.time.LocalDate;
 
-import static com.stano.daterange.DateUtils.addMonths;
-import static com.stano.daterange.DateUtils.subtractMonths;
+import static com.stano.datetime.DateUtils.addMonths;
+import static com.stano.datetime.DateUtils.subtractMonths;
 
 public final class SemiAnnualDateRange {
   public static DateRange withStartDate(LocalDate startDate) {

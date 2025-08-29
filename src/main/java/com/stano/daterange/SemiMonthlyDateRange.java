@@ -2,7 +2,7 @@ package com.stano.daterange;
 
 import java.time.LocalDate;
 
-import static com.stano.daterange.DateUtils.lastDayOfMonth;
+import static com.stano.datetime.DateUtils.lastDayOfMonth;
 
 public final class SemiMonthlyDateRange {
   private static final int FIFTEENTH = 15;

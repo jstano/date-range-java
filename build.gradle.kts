@@ -2,30 +2,18 @@ plugins {
   id("java-library")
   id("groovy")
   id("jacoco")
-  id("org.sonarqube") version "6.2.0.5505"
+  id("org.sonarqube") version "6.3.1.5724"
   id("maven-publish")
   id("signing")
 }
 
 dependencies {
-  implementation("commons-cli:commons-cli:1.9.0")
-  implementation("commons-io:commons-io:2.19.0")
-  implementation("org.apache.commons:commons-collections4:4.5.0")
-  implementation("org.apache.commons:commons-lang3:3.17.0")
-  implementation("org.apache.groovy:groovy-all:4.0.27")
-  implementation("org.jooq:joor-java-8:0.9.15")
-  implementation("org.objenesis:objenesis:3.4")
-  implementation("org.slf4j:slf4j-api:2.0.17")
-
-  testImplementation("net.bytebuddy:byte-buddy:1.17.6")
-  testImplementation("org.junit.jupiter:junit-jupiter:5.13.2")
-  testImplementation("org.junit.platform:junit-platform-launcher:1.13.2")
-  testImplementation("org.mockito:mockito-junit-jupiter:5.18.0")
+  testImplementation("net.bytebuddy:byte-buddy:1.17.7")
+  testImplementation("org.apache.groovy:groovy-all:4.0.28")
+  testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
+  testImplementation("org.junit.platform:junit-platform-launcher:1.13.4")
+  testImplementation("org.mockito:mockito-junit-jupiter:5.19.0")
   testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
-
-  testImplementation(files("src/test/resources/test-jar1.jar"))
-  testImplementation(files("src/test/resources/test-jar2.jar"))
-  testImplementation(files("src/test/resources/test-jarjar.jar"))
 }
 
 java {
@@ -38,13 +26,13 @@ publishing {
     create<MavenPublication>("mavenJava") {
       from(components["java"])
       pom {
-        name.set("java-utils")
-        description.set("A set of utility classes for Java applications")
-        url.set("https://github.com/jstano/java-utils")
+        name.set("date-range")
+        description.set("A set of classes that implement ranges for dates, times, and date/times")
+        url.set("https://github.com/jstano/date-range-java")
         licenses {
           license {
-            name.set("MIT License")
-            url.set("https://opensource.org/license/mit")
+            name.set("APACHE LICENSE, VERSION 2.0")
+            url.set("https://www.apache.org/licenses/LICENSE-2.0")
           }
         }
         developers {
@@ -55,9 +43,9 @@ publishing {
           }
         }
         scm {
-          connection.set("scm:git:https://github.com/jstano/java-utils.git")
-          developerConnection.set("scm:git:ssh://git@github.com:jstano/java-utils.git")
-          url.set("https://github.com/jstano/java-utils")
+          connection.set("scm:git:https://github.com/jstano/date-range-java.git")
+          developerConnection.set("scm:git:ssh://git@github.com:jstano/date-range-java.git")
+          url.set("https://github.com/jstano/date-range-java")
         }
       }
     }
@@ -70,19 +58,13 @@ publishing {
 }
 
 signing {
-//  val signingKeyFile = findProperty("signing.keyFile")?.let { file(it.toString()) }
-//  useInMemoryPgpKeys(
-//    findProperty("signing.keyId") as String?,
-//    signingKeyFile?.readText(),
-//    findProperty("signing.password") as String?
-//
-//  )
   sign(publishing.publications["mavenJava"])
 }
 
 sonar {
-  val sonarHost = "http://localhost:9000"
-  val sonarToken = "sqa_010b94573806de8eaf377006538b63f2b1ebba40"
+  val extraProperties = extensions.extraProperties.properties
+  val sonarHost = extraProperties["com.stano.sonar.host"].toString()
+  val sonarToken = extraProperties["com.stano.sonar.token"].toString()
 
   properties {
     property("sonar.host.url", sonarHost)
