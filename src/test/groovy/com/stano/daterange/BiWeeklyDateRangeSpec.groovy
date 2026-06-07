@@ -10,14 +10,14 @@ class BiWeeklyDateRangeSpec extends Specification {
 
   def "withStartDate and withEndDate produce 14-day ranges"() {
     expect:
-    BiWeeklyDateRange.withStartDate(LocalDate.of(2012, 1, 1)).endDate() == LocalDate.of(2012, 1, 14)
-    BiWeeklyDateRange.withEndDate(LocalDate.of(2012,1,14)).startDate() == LocalDate.of(2012,1,1)
+    BiWeeklyDateRange.withStartDate(LocalDate.of(2012, 1, 1)).getEndDate() == LocalDate.of(2012, 1, 14)
+    BiWeeklyDateRange.withEndDate(LocalDate.of(2012,1,14)).getStartDate() == LocalDate.of(2012, 1, 1)
   }
 
   def "withTargetDate aligns end to requested day of week (2-week window)"() {
     expect:
-    BiWeeklyDateRange.withTargetDate(LocalDate.of(2014,12,18), DayOfWeek.FRIDAY).startDate() == LocalDate.of(2014,12,6)
-    BiWeeklyDateRange.withTargetDate(LocalDate.of(2014,12,18), DayOfWeek.FRIDAY).endDate() == LocalDate.of(2014,12,19)
+    BiWeeklyDateRange.withTargetDate(LocalDate.of(2014,12,18), DayOfWeek.FRIDAY).getStartDate() == LocalDate.of(2014, 12, 6)
+    BiWeeklyDateRange.withTargetDate(LocalDate.of(2014,12,18), DayOfWeek.FRIDAY).getEndDate() == LocalDate.of(2014, 12, 19)
   }
 
   def "withTargetDate wraps to next week when endDay is earlier in the week (offset < 0 branch)"() {
@@ -29,7 +29,7 @@ class BiWeeklyDateRangeSpec extends Specification {
     def range = BiWeeklyDateRange.withTargetDate(target, DayOfWeek.MONDAY)
 
     then:
-    range.endDate() == LocalDate.of(2014, 12, 22) // Thu -> next Mon (offset -3 + 7 = 4)
-    range.startDate() == LocalDate.of(2014, 12, 9) // end - 13 days
+    range.getEndDate() == LocalDate.of(2014, 12, 22) // Thu -> next Mon (offset -3 + 7 = 4)
+    range.getStartDate() == LocalDate.of(2014, 12, 9) // end - 13 days
   }
 }

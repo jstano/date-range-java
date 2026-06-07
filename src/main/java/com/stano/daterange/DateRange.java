@@ -11,18 +11,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
-/**
- * Java port of the Rust DateRange core with composition-based prior/next navigation.
- * <p>
- * This class is immutable. All navigation methods (prior/next/etc.) return new DateRange instances
- * preserving the same prior/next functions and startDay metadata.
- */
 public final class DateRange implements Iterable<LocalDate>, Comparable<DateRange> {
   private final LocalDate startDate;
   private final LocalDate endDate;
-  private final int len; // inclusive length in days
-  private final UnaryOperator<DateRange> priorFn; // may be null
-  private final UnaryOperator<DateRange> nextFn;  // may be null
+  private final int numberOfDays; // inclusive length in days
+  private final UnaryOperator<DateRange> priorFn; // maybe null
+  private final UnaryOperator<DateRange> nextFn;  // maybe null
   private final Integer startDay; // optional: used by Monthly segments
 
   public DateRange(LocalDate startDate, LocalDate endDate) {
@@ -61,23 +55,23 @@ public final class DateRange implements Iterable<LocalDate>, Comparable<DateRang
     }
     this.startDate = startDate;
     this.endDate = endDate;
-    long days = ChronoUnit.DAYS.between(startDate, endDate) + 1; // inclusive
-    this.len = Math.toIntExact(days);
+    long numberOfDays = ChronoUnit.DAYS.between(startDate, endDate) + 1; // inclusive
+    this.numberOfDays = Math.toIntExact(numberOfDays);
     this.priorFn = priorFn;
     this.nextFn = nextFn;
     this.startDay = startDay;
   }
 
-  public LocalDate startDate() {
+  public LocalDate getStartDate() {
     return startDate;
   }
 
-  public LocalDate endDate() {
+  public LocalDate getEndDate() {
     return endDate;
   }
 
-  public int len() {
-    return len;
+  public int getNumberOfDays() {
+    return numberOfDays;
   }
 
   public Optional<Integer> startDay() {
@@ -85,7 +79,7 @@ public final class DateRange implements Iterable<LocalDate>, Comparable<DateRang
   }
 
   public List<LocalDate> dates() {
-    List<LocalDate> res = new ArrayList<>(len);
+    List<LocalDate> res = new ArrayList<>(numberOfDays);
     LocalDate cur = startDate;
     while (!cur.isAfter(endDate)) {
       res.add(cur);
@@ -95,7 +89,7 @@ public final class DateRange implements Iterable<LocalDate>, Comparable<DateRang
   }
 
   public Optional<LocalDate> dateAt(int index) {
-    if (index < 0 || index >= len) {
+    if (index < 0 || index >= numberOfDays) {
       return Optional.empty();
     }
     return Optional.of(startDate.plusDays(index));
@@ -150,7 +144,7 @@ public final class DateRange implements Iterable<LocalDate>, Comparable<DateRang
       return priorFn.apply(this);
     }
     // default shift by length
-    return createNew(startDate.minusDays(len), endDate.minusDays(len));
+    return createNew(startDate.minusDays(numberOfDays), endDate.minusDays(numberOfDays));
   }
 
   public DateRange priorN(int number) {
@@ -166,7 +160,7 @@ public final class DateRange implements Iterable<LocalDate>, Comparable<DateRang
       return nextFn.apply(this);
     }
     // default shift by length
-    return createNew(startDate.plusDays(len), endDate.plusDays(len));
+    return createNew(startDate.plusDays(numberOfDays), endDate.plusDays(numberOfDays));
   }
 
   public DateRange nextN(int number) {

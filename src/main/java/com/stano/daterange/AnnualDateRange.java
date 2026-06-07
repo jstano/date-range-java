@@ -17,13 +17,13 @@ public final class AnnualDateRange {
   }
 
   static DateRange prior(DateRange dr) {
-    LocalDate start = subtractYears(dr.startDate(), 1);
+    LocalDate start = subtractYears(dr.getStartDate(), 1);
     LocalDate end = endForStart(start);
     return DateRange.ofWithPriorNext(start, end, AnnualDateRange::prior, AnnualDateRange::next);
   }
 
   static DateRange next(DateRange dr) {
-    LocalDate start = addYears(dr.startDate(), 1);
+    LocalDate start = addYears(dr.getStartDate(), 1);
     LocalDate end = endForStart(start);
     return DateRange.ofWithPriorNext(start, end, AnnualDateRange::prior, AnnualDateRange::next);
   }

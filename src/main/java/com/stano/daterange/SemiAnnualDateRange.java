@@ -17,14 +17,14 @@ public final class SemiAnnualDateRange {
   }
 
   static DateRange prior(DateRange dr) {
-    LocalDate start = subtractMonths(dr.startDate(), 6);
-    LocalDate end = subtractMonths(dr.endDate(), 6);
+    LocalDate start = subtractMonths(dr.getStartDate(), 6);
+    LocalDate end = subtractMonths(dr.getEndDate(), 6);
     return DateRange.ofWithPriorNext(start, end, SemiAnnualDateRange::prior, SemiAnnualDateRange::next);
   }
 
   static DateRange next(DateRange dr) {
-    LocalDate start = addMonths(dr.startDate(), 6);
-    LocalDate end = addMonths(dr.endDate(), 6);
+    LocalDate start = addMonths(dr.getStartDate(), 6);
+    LocalDate end = addMonths(dr.getEndDate(), 6);
     return DateRange.ofWithPriorNext(start, end, SemiAnnualDateRange::prior, SemiAnnualDateRange::next);
   }
 

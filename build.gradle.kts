@@ -2,18 +2,18 @@ plugins {
   id("java-library")
   id("groovy")
   id("jacoco")
-  id("org.sonarqube") version "6.3.1.5724"
+  id("org.sonarqube") version "7.3.1.8318"
   id("maven-publish")
   id("signing")
 }
 
 dependencies {
-  testImplementation("net.bytebuddy:byte-buddy:1.17.7")
-  testImplementation("org.apache.groovy:groovy-all:4.0.28")
-  testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
-  testImplementation("org.junit.platform:junit-platform-launcher:1.13.4")
-  testImplementation("org.mockito:mockito-junit-jupiter:5.19.0")
-  testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
+  testImplementation("net.bytebuddy:byte-buddy:1.18.10")
+  testImplementation("org.apache.groovy:groovy-all:4.0.32")
+  testImplementation("org.junit.jupiter:junit-jupiter:6.1.0")
+  testImplementation("org.junit.platform:junit-platform-launcher:6.1.0")
+  testImplementation("org.mockito:mockito-junit-jupiter:5.23.0")
+  testImplementation("org.spockframework:spock-core:2.4-groovy-4.0")
 }
 
 java {

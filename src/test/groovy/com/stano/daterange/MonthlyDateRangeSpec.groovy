@@ -13,20 +13,20 @@ class MonthlyDateRangeSpec extends Specification {
     def dr = MonthlyDateRange.withEndDateOnFirst(end)
 
     expect:
-    dr.startDate() == LocalDate.of(2023,3,1)
-    dr.endDate() == LocalDate.of(2023,3,31)
+    dr.getStartDate() == LocalDate.of(2023, 3, 1)
+    dr.getEndDate() == LocalDate.of(2023, 3, 31)
     dr.startDay().get() == 1
 
     and: 'prior goes to previous full month'
     def prior = dr.prior()
-    prior.startDate() == LocalDate.of(2023,2,1)
-    prior.endDate() == LocalDate.of(2023,2,28)
+    prior.getStartDate() == LocalDate.of(2023, 2, 1)
+    prior.getEndDate() == LocalDate.of(2023, 2, 28)
     prior.startDay().get() == 1
 
     and: 'next goes to next full month'
     def next = dr.next()
-    next.startDate() == LocalDate.of(2023,4,1)
-    next.endDate() == LocalDate.of(2023,4,30)
+    next.getStartDate() == LocalDate.of(2023, 4, 1)
+    next.getEndDate() == LocalDate.of(2023, 4, 30)
     next.startDay().get() == 1
   }
 
@@ -38,8 +38,8 @@ class MonthlyDateRangeSpec extends Specification {
     def dr = MonthlyDateRange.withEndDateAndStartDay(end, 21) // anchored on 21st
 
     then:
-    dr.startDate() == LocalDate.of(2023,2,21)
-    dr.endDate() == LocalDate.of(2023,3,20)
+    dr.getStartDate() == LocalDate.of(2023, 2, 21)
+    dr.getEndDate() == LocalDate.of(2023, 3, 20)
     dr.startDay().get() == 21
 
     when:
@@ -47,12 +47,12 @@ class MonthlyDateRangeSpec extends Specification {
     def next = dr.next()
 
     then:
-    prior.startDate() == LocalDate.of(2023,1,21)
-    prior.endDate() == LocalDate.of(2023,2,20)
+    prior.getStartDate() == LocalDate.of(2023, 1, 21)
+    prior.getEndDate() == LocalDate.of(2023, 2, 20)
     prior.startDay().get() == 21
 
-    next.startDate() == LocalDate.of(2023,3,21)
-    next.endDate() == LocalDate.of(2023,4,20)
+    next.getStartDate() == LocalDate.of(2023, 3, 21)
+    next.getEndDate() == LocalDate.of(2023, 4, 20)
     next.startDay().get() == 21
   }
 }

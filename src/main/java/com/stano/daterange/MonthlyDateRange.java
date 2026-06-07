@@ -23,13 +23,13 @@ public final class MonthlyDateRange {
   static DateRange prior(DateRange dr) {
     int startDay = dr.startDay().orElse(1);
     if (startDay == 1) {
-      LocalDate newEnd = dr.startDate().minusDays(1);
+      LocalDate newEnd = dr.getStartDate().minusDays(1);
       LocalDate newStart = newEnd.withDayOfMonth(1);
       return DateRange.ofWithPriorNextStartDay(newStart, newEnd, MonthlyDateRange::prior, MonthlyDateRange::next, startDay);
     }
     else {
-      LocalDate newStart = subtractMonths(dr.startDate(), 1);
-      LocalDate newEnd = dr.startDate().minusDays(1);
+      LocalDate newStart = subtractMonths(dr.getStartDate(), 1);
+      LocalDate newEnd = dr.getStartDate().minusDays(1);
       return DateRange.ofWithPriorNextStartDay(newStart, newEnd, MonthlyDateRange::prior, MonthlyDateRange::next, startDay);
     }
   }
@@ -37,13 +37,13 @@ public final class MonthlyDateRange {
   static DateRange next(DateRange dr) {
     int startDay = dr.startDay().orElse(1);
     if (startDay == 1) {
-      LocalDate newStart = dr.endDate().plusDays(1);
+      LocalDate newStart = dr.getEndDate().plusDays(1);
       LocalDate newEnd = lastDayOfMonth(newStart);
       return DateRange.ofWithPriorNextStartDay(newStart, newEnd, MonthlyDateRange::prior, MonthlyDateRange::next, startDay);
     }
     else {
-      LocalDate newStart = dr.endDate().plusDays(1);
-      LocalDate newEnd = addMonths(dr.endDate(), 1);
+      LocalDate newStart = dr.getEndDate().plusDays(1);
+      LocalDate newEnd = addMonths(dr.getEndDate(), 1);
       return DateRange.ofWithPriorNextStartDay(newStart, newEnd, MonthlyDateRange::prior, MonthlyDateRange::next, startDay);
     }
   }

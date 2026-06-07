@@ -13,9 +13,9 @@ public final class SemiMonthlyDateRange {
   }
 
   static DateRange prior(DateRange dr) {
-    LocalDate end = dr.startDate().minusDays(1);
+    LocalDate end = dr.getStartDate().minusDays(1);
     LocalDate start;
-    if (dr.startDate().getDayOfMonth() == 1) {
+    if (dr.getStartDate().getDayOfMonth() == 1) {
       // current is 1..15 -> prior is 16..last of previous month
       start = LocalDate.of(end.getYear(), end.getMonth(), FIFTEENTH + 1);
     }
@@ -28,12 +28,12 @@ public final class SemiMonthlyDateRange {
 
   static DateRange next(DateRange dr) {
     LocalDate start;
-    if (dr.endDate().getDayOfMonth() == FIFTEENTH) {
-      start = LocalDate.of(dr.endDate().getYear(), dr.endDate().getMonth(), FIFTEENTH + 1);
+    if (dr.getEndDate().getDayOfMonth() == FIFTEENTH) {
+      start = LocalDate.of(dr.getEndDate().getYear(), dr.getEndDate().getMonth(), FIFTEENTH + 1);
     }
     else {
       // next is 1..15 of next month
-      LocalDate end = dr.endDate();
+      LocalDate end = dr.getEndDate();
       int nextMonth = end.getMonthValue() % 12 + 1;
       int year = (nextMonth == 1) ? end.getYear() + 1 : end.getYear();
       start = LocalDate.of(year, nextMonth, 1);

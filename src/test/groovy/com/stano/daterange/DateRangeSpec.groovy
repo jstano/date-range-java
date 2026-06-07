@@ -70,9 +70,9 @@ class DateRangeSpec extends Specification {
     def dr = DateRange.of(LocalDate.of(2020,1,1), LocalDate.of(2020,1,3))
 
     then:
-    dr.startDate() == LocalDate.of(2020,1,1)
-    dr.endDate() == LocalDate.of(2020,1,3)
-    dr.len() == 3
+    dr.getStartDate() == LocalDate.of(2020, 1, 1)
+    dr.getEndDate() == LocalDate.of(2020, 1, 3)
+    dr.getNumberOfDays() == 3
   }
 
   def "dates and dateAt and iterator"() {
@@ -126,11 +126,11 @@ class DateRangeSpec extends Specification {
     def dr = DateRange.of(LocalDate.of(2020,6,1), LocalDate.of(2020,6,7)) // 7 days
 
     expect:
-    dr.prior().startDate() == LocalDate.of(2020,5,25)
-    dr.prior().endDate() == LocalDate.of(2020,5,31)
-    dr.next().startDate() == LocalDate.of(2020,6,8)
-    dr.nextN(2).startDate() == LocalDate.of(2020,6,15)
-    dr.priorN(2).endDate() == LocalDate.of(2020,5,24)
+    dr.prior().getStartDate() == LocalDate.of(2020, 5, 25)
+    dr.prior().getEndDate() == LocalDate.of(2020, 5, 31)
+    dr.next().getStartDate() == LocalDate.of(2020, 6, 8)
+    dr.nextN(2).getStartDate() == LocalDate.of(2020, 6, 15)
+    dr.priorN(2).getEndDate() == LocalDate.of(2020, 5, 24)
   }
 
   def "rangesBefore/After Inclusive and window ordering"() {
@@ -145,15 +145,15 @@ class DateRangeSpec extends Specification {
     def win = dr.rangesWindow(2, 2)
 
     then: 'before lists are in chronological order (earlier first)'
-    bex*.startDate() == [LocalDate.of(2022,10,4), LocalDate.of(2022,10,7)]
-    bexi*.startDate() == [LocalDate.of(2022,10,4), LocalDate.of(2022,10,7), LocalDate.of(2022,10,10)]
+    bex*.getStartDate() == [LocalDate.of(2022, 10, 4), LocalDate.of(2022, 10, 7)]
+    bexi*.getStartDate() == [LocalDate.of(2022, 10, 4), LocalDate.of(2022, 10, 7), LocalDate.of(2022, 10, 10)]
 
     and:
-    aft*.startDate() == [LocalDate.of(2022,10,13), LocalDate.of(2022,10,16)]
-    afti*.startDate() == [LocalDate.of(2022,10,10), LocalDate.of(2022,10,13), LocalDate.of(2022,10,16)]
+    aft*.getStartDate() == [LocalDate.of(2022, 10, 13), LocalDate.of(2022, 10, 16)]
+    afti*.getStartDate() == [LocalDate.of(2022, 10, 10), LocalDate.of(2022, 10, 13), LocalDate.of(2022, 10, 16)]
 
     and:
-    win*.startDate() == [LocalDate.of(2022,10,4), LocalDate.of(2022,10,7), LocalDate.of(2022,10,10), LocalDate.of(2022,10,13), LocalDate.of(2022,10,16)]
+    win*.getStartDate() == [LocalDate.of(2022, 10, 4), LocalDate.of(2022, 10, 7), LocalDate.of(2022, 10, 10), LocalDate.of(2022, 10, 13), LocalDate.of(2022, 10, 16)]
   }
 
   def "rangesContainingSpan and rangeContainingDate with composed prior/next"() {
@@ -161,12 +161,12 @@ class DateRangeSpec extends Specification {
     def weekly = WeeklyDateRange.withEndDate(LocalDate.of(2024, 1, 7)) // 2024-01-01..2024-01-07
 
     expect: 'rangeContainingDate navigates to the right weekly range'
-    weekly.rangeContainingDate(LocalDate.of(2024,1,20)).startDate() == LocalDate.of(2024,1,15)
+    weekly.rangeContainingDate(LocalDate.of(2024,1,20)).getStartDate() == LocalDate.of(2024, 1, 15)
 
     and:
     def spans = weekly.rangesContainingSpan(LocalDate.of(2024,1,5), LocalDate.of(2024,1,20))
-    spans*.startDate() == [LocalDate.of(2024,1,1), LocalDate.of(2024,1,8), LocalDate.of(2024,1,15)]
-    spans*.endDate() == [LocalDate.of(2024,1,7), LocalDate.of(2024,1,14), LocalDate.of(2024,1,21)]
+    spans*.getStartDate() == [LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 8), LocalDate.of(2024, 1, 15)]
+    spans*.getEndDate() == [LocalDate.of(2024, 1, 7), LocalDate.of(2024, 1, 14), LocalDate.of(2024, 1, 21)]
   }
 
   def "rangeContainingDate navigates using default next/prior (no composition)"() {
@@ -176,23 +176,23 @@ class DateRangeSpec extends Specification {
 
     expect: 'returns same range when date is inside'
     def same = base.rangeContainingDate(LocalDate.of(2020,6,6))
-    same.startDate() == LocalDate.of(2020,6,1)
-    same.endDate() == LocalDate.of(2020,6,7)
+    same.getStartDate() == LocalDate.of(2020, 6, 1)
+    same.getEndDate() == LocalDate.of(2020, 6, 7)
 
     and: 'navigates forward one window when date is after the range'
     def forwardOne = base.rangeContainingDate(LocalDate.of(2020,6,10))
-    forwardOne.startDate() == LocalDate.of(2020,6,8)
-    forwardOne.endDate() == LocalDate.of(2020,6,14)
+    forwardOne.getStartDate() == LocalDate.of(2020, 6, 8)
+    forwardOne.getEndDate() == LocalDate.of(2020, 6, 14)
 
     and: 'navigates backward one window when date is before the range'
     def backwardOne = base.rangeContainingDate(LocalDate.of(2020,5,28))
-    backwardOne.startDate() == LocalDate.of(2020,5,25)
-    backwardOne.endDate() == LocalDate.of(2020,5,31)
+    backwardOne.getStartDate() == LocalDate.of(2020, 5, 25)
+    backwardOne.getEndDate() == LocalDate.of(2020, 5, 31)
 
     and: 'can hop multiple windows forward to reach far date'
     def far = base.rangeContainingDate(LocalDate.of(2020,7,1))
-    far.startDate() == LocalDate.of(2020,6,29)
-    far.endDate() == LocalDate.of(2020,7,5)
+    far.getStartDate() == LocalDate.of(2020, 6, 29)
+    far.getEndDate() == LocalDate.of(2020, 7, 5)
   }
 
   def "rangesContainingSpan uses default step and validates errors"() {
@@ -221,14 +221,14 @@ class DateRangeSpec extends Specification {
     when: 'span entirely inside one base window'
     def single = base.rangesContainingSpan(LocalDate.of(2020,6,2), LocalDate.of(2020,6,6))
     then:
-    single*.startDate() == [LocalDate.of(2020,6,1)]
-    single*.endDate() == [LocalDate.of(2020,6,7)]
+    single*.getStartDate() == [LocalDate.of(2020, 6, 1)]
+    single*.getEndDate() == [LocalDate.of(2020, 6, 7)]
 
     when: 'span crosses multiple windows'
     def multi = base.rangesContainingSpan(LocalDate.of(2020,6,5), LocalDate.of(2020,6,20))
     then:
-    multi*.startDate() == [LocalDate.of(2020,6,1), LocalDate.of(2020,6,8), LocalDate.of(2020,6,15)]
-    multi*.endDate() == [LocalDate.of(2020,6,7), LocalDate.of(2020,6,14), LocalDate.of(2020,6,21)]
+    multi*.getStartDate() == [LocalDate.of(2020, 6, 1), LocalDate.of(2020, 6, 8), LocalDate.of(2020, 6, 15)]
+    multi*.getEndDate() == [LocalDate.of(2020, 6, 7), LocalDate.of(2020, 6, 14), LocalDate.of(2020, 6, 21)]
   }
 
   def "equals, hashCode, compareTo"() {

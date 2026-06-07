@@ -18,14 +18,14 @@ public final class QuarterlyDateRange {
   }
 
   static DateRange prior(DateRange dr) {
-    LocalDate start = subtractMonths(dr.startDate(), 3);
-    LocalDate end = lastDayOfMonth(subtractMonths(firstDayOfMonth(dr.endDate()), 3));
+    LocalDate start = subtractMonths(dr.getStartDate(), 3);
+    LocalDate end = lastDayOfMonth(subtractMonths(firstDayOfMonth(dr.getEndDate()), 3));
     return DateRange.ofWithPriorNext(start, end, QuarterlyDateRange::prior, QuarterlyDateRange::next);
   }
 
   static DateRange next(DateRange dr) {
-    LocalDate start = addMonths(dr.startDate(), 3);
-    LocalDate end = lastDayOfMonth(addMonths(firstDayOfMonth(dr.endDate()), 3));
+    LocalDate start = addMonths(dr.getStartDate(), 3);
+    LocalDate end = lastDayOfMonth(addMonths(firstDayOfMonth(dr.getEndDate()), 3));
     return DateRange.ofWithPriorNext(start, end, QuarterlyDateRange::prior, QuarterlyDateRange::next);
   }
 
