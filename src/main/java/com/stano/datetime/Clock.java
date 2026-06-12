@@ -6,9 +6,9 @@ import java.time.LocalTime;
 
 public interface Clock {
 
-   LocalDate currentDate();
+  LocalDate currentDate();
 
-   LocalDateTime currentDateTime();
+  LocalDateTime currentDateTime();
 
-   LocalTime currentTime();
+  LocalTime currentTime();
 }

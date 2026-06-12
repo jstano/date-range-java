@@ -6,33 +6,33 @@ import java.time.LocalTime;
 
 public class ConstantClock implements Clock {
 
-   private final LocalDateTime localDateTime;
+  private final LocalDateTime localDateTime;
 
-   public static Clock of(LocalDateTime localDateTime) {
+  public static Clock of(LocalDateTime localDateTime) {
 
-      return new ConstantClock(localDateTime);
-   }
+    return new ConstantClock(localDateTime);
+  }
 
-   @Override
-   public LocalDate currentDate() {
+  @Override
+  public LocalDate currentDate() {
 
-      return localDateTime.toLocalDate();
-   }
+    return localDateTime.toLocalDate();
+  }
 
-   @Override
-   public LocalDateTime currentDateTime() {
+  @Override
+  public LocalDateTime currentDateTime() {
 
-      return localDateTime;
-   }
+    return localDateTime;
+  }
 
-   @Override
-   public LocalTime currentTime() {
+  @Override
+  public LocalTime currentTime() {
 
-      return localDateTime.toLocalTime();
-   }
+    return localDateTime.toLocalTime();
+  }
 
-   private ConstantClock(LocalDateTime localDateTime) {
+  private ConstantClock(LocalDateTime localDateTime) {
 
-      this.localDateTime = localDateTime;
-   }
+    this.localDateTime = localDateTime;
+  }
 }

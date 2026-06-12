@@ -35,6 +35,7 @@ public class DateTimeRangeIterator implements Iterator<LocalDateTime> {
 
   @Override
   public void remove() {
-    throw new UnsupportedOperationException("The remove method is not supported by DateTimeRangeIterator.");
+    throw new UnsupportedOperationException(
+        "The remove method is not supported by DateTimeRangeIterator.");
   }
 }

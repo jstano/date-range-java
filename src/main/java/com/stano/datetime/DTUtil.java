@@ -23,26 +23,32 @@ public final class DTUtil {
   }
 
   public static int durationInHours(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-    return (int)Duration.between(startDateTime, endDateTime).getSeconds() / DateTimeConstants.SECONDS_PER_HOUR;
+    return (int) Duration.between(startDateTime, endDateTime).getSeconds()
+        / DateTimeConstants.SECONDS_PER_HOUR;
   }
 
   public static int durationInMinutes(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-    return (int)Duration.between(startDateTime, endDateTime).getSeconds() / DateTimeConstants.SECONDS_PER_MINUTE;
+    return (int) Duration.between(startDateTime, endDateTime).getSeconds()
+        / DateTimeConstants.SECONDS_PER_MINUTE;
   }
 
   public static int durationInSeconds(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-    return (int)Duration.between(startDateTime, endDateTime).getSeconds();
+    return (int) Duration.between(startDateTime, endDateTime).getSeconds();
   }
 
-  public static BigDecimal durationInFractionalSeconds(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-    return BigDecimal.valueOf((double)Duration.between(startDateTime, endDateTime).toMillis() / (double)DateTimeConstants.MILLIS_PER_SECOND)
-                     .round(new MathContext(4));
+  public static BigDecimal durationInFractionalSeconds(
+      LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    return BigDecimal.valueOf(
+            (double) Duration.between(startDateTime, endDateTime).toMillis()
+                / (double) DateTimeConstants.MILLIS_PER_SECOND)
+        .round(new MathContext(4));
   }
 
-  public static double durationInFractionalHours(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-    return ((double)Duration.between(startDateTime, endDateTime).getSeconds()) / DateTimeConstants.SECONDS_PER_HOUR;
+  public static double durationInFractionalHours(
+      LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    return ((double) Duration.between(startDateTime, endDateTime).getSeconds())
+        / DateTimeConstants.SECONDS_PER_HOUR;
   }
 
-  private DTUtil() {
-  }
+  private DTUtil() {}
 }

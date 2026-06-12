@@ -5,6 +5,7 @@ plugins {
   id("org.sonarqube") version "7.3.1.8318"
   id("maven-publish")
   id("signing")
+  id("com.diffplug.spotless") version "7.0.1"
 }
 
 dependencies {
@@ -117,6 +118,31 @@ tasks.withType<JacocoReport>().configureEach {
     html.required.set(true)
     xml.required.set(true)
   }
+}
+
+spotless {
+  java {
+    target("src/**/*.java")
+    googleJavaFormat()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+  groovy {
+    target("src/**/*.groovy")
+    greclipse()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+}
+
+tasks.register("formatCheck") {
+  dependsOn("spotlessCheck")
+  description = "Check code formatting without making changes"
+}
+
+tasks.register("formatAll") {
+  dependsOn("spotlessApply")
+  description = "Apply code formatting to all files"
 }
 
 fun compilerOptions(): List<String> = listOf("-Xlint:none", "-Xdoclint:none", "-nowarn", "-parameters")

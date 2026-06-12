@@ -16,7 +16,7 @@ public final class DateRange implements Iterable<LocalDate>, Comparable<DateRang
   private final LocalDate endDate;
   private final int numberOfDays; // inclusive length in days
   private final UnaryOperator<DateRange> priorFn; // maybe null
-  private final UnaryOperator<DateRange> nextFn;  // maybe null
+  private final UnaryOperator<DateRange> nextFn; // maybe null
   private final Integer startDay; // optional: used by Monthly segments
 
   public DateRange(LocalDate startDate, LocalDate endDate) {
@@ -27,26 +27,29 @@ public final class DateRange implements Iterable<LocalDate>, Comparable<DateRang
     return new DateRange(startDate, endDate);
   }
 
-  static DateRange ofWithPriorNext(LocalDate startDate,
-                                   LocalDate endDate,
-                                   UnaryOperator<DateRange> priorFn,
-                                   UnaryOperator<DateRange> nextFn) {
+  static DateRange ofWithPriorNext(
+      LocalDate startDate,
+      LocalDate endDate,
+      UnaryOperator<DateRange> priorFn,
+      UnaryOperator<DateRange> nextFn) {
     return new DateRange(startDate, endDate, priorFn, nextFn, null);
   }
 
-  static DateRange ofWithPriorNextStartDay(LocalDate startDate,
-                                           LocalDate endDate,
-                                           UnaryOperator<DateRange> priorFn,
-                                           UnaryOperator<DateRange> nextFn,
-                                           Integer startDay) {
+  static DateRange ofWithPriorNextStartDay(
+      LocalDate startDate,
+      LocalDate endDate,
+      UnaryOperator<DateRange> priorFn,
+      UnaryOperator<DateRange> nextFn,
+      Integer startDay) {
     return new DateRange(startDate, endDate, priorFn, nextFn, startDay);
   }
 
-  private DateRange(LocalDate startDate,
-                    LocalDate endDate,
-                    UnaryOperator<DateRange> priorFn,
-                    UnaryOperator<DateRange> nextFn,
-                    Integer startDay) {
+  private DateRange(
+      LocalDate startDate,
+      LocalDate endDate,
+      UnaryOperator<DateRange> priorFn,
+      UnaryOperator<DateRange> nextFn,
+      Integer startDay) {
     if (startDate == null || endDate == null) {
       throw new IllegalArgumentException("dates required");
     }
@@ -131,8 +134,7 @@ public final class DateRange implements Iterable<LocalDate>, Comparable<DateRang
     while (!range.containsDate(date)) {
       if (date.isAfter(range.endDate)) {
         range = range.next();
-      }
-      else {
+      } else {
         range = range.prior();
       }
     }
@@ -276,7 +278,7 @@ public final class DateRange implements Iterable<LocalDate>, Comparable<DateRang
     if (!(o instanceof DateRange)) {
       return false;
     }
-    DateRange that = (DateRange)o;
+    DateRange that = (DateRange) o;
     return Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate);
   }
 

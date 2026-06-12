@@ -1,9 +1,9 @@
 package com.stano.daterange;
 
+import static com.stano.datetime.DateUtils.calculateDayOfWeekOffset;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-
-import static com.stano.datetime.DateUtils.calculateDayOfWeekOffset;
 
 public final class WeeklyDateRange {
   public static DateRange withStartDate(LocalDate startDate) {
@@ -23,6 +23,5 @@ public final class WeeklyDateRange {
     return DateRange.of(start, end);
   }
 
-  private WeeklyDateRange() {
-  }
+  private WeeklyDateRange() {}
 }

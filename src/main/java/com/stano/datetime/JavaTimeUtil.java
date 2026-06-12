@@ -65,10 +65,12 @@ public final class JavaTimeUtil {
   }
 
   public static Time localTimeToSqlTime(LocalTime localTime) {
-    return new Time(localTime.atDate(LocalDate.ofEpochDay(0)).toInstant(ZoneOffset.UTC).toEpochMilli());
+    return new Time(
+        localTime.atDate(LocalDate.ofEpochDay(0)).toInstant(ZoneOffset.UTC).toEpochMilli());
   }
 
-  public static LocalDateTime toLocalDateTimeAtZone(LocalDateTime localDateTime, ZoneId fromZoneId, ZoneId toZoneId) {
+  public static LocalDateTime toLocalDateTimeAtZone(
+      LocalDateTime localDateTime, ZoneId fromZoneId, ZoneId toZoneId) {
     return localDateTime.atZone(fromZoneId).withZoneSameInstant(toZoneId).toLocalDateTime();
   }
 
@@ -81,9 +83,9 @@ public final class JavaTimeUtil {
       case 5 -> DayOfWeek.THURSDAY;
       case 6 -> DayOfWeek.FRIDAY;
       case 7 -> DayOfWeek.SATURDAY;
-      default -> throw new IllegalArgumentException(String.format("Invalid day number: %d", usDayNumber));
+      default ->
+          throw new IllegalArgumentException(String.format("Invalid day number: %d", usDayNumber));
     };
-
   }
 
   public static int dayOfWeekToUsDayNumber(DayOfWeek dayOfWeek) {
@@ -96,6 +98,5 @@ public final class JavaTimeUtil {
     return Calendar.getInstance(TimeZone.getTimeZone("UTC"));
   }
 
-  private JavaTimeUtil() {
-  }
+  private JavaTimeUtil() {}
 }

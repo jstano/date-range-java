@@ -5,8 +5,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 
 public final class DateUtils {
-  private DateUtils() {
-  }
+  private DateUtils() {}
 
   public static LocalDate firstDayOfMonth(LocalDate d) {
     return d.withDayOfMonth(1);

@@ -3,7 +3,6 @@ package com.stano.datetimerange;
 import com.stano.datetime.DTUtil;
 import com.stano.datetime.DateTimeConstants;
 import com.stano.timerange.TimeRange;
-
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -23,17 +22,15 @@ public final class DateTimeRange implements Comparable<DateTimeRange>, Serializa
     LocalTime endTime = timeRange.getEndTime();
 
     if (endTime.isBefore(startTime)) {
-      return new DateTimeRange(date.atTime(startTime),
-                               date.plusDays(1).atTime(endTime));
+      return new DateTimeRange(date.atTime(startTime), date.plusDays(1).atTime(endTime));
     }
 
-    return new DateTimeRange(date.atTime(startTime),
-                             date.atTime(endTime));
+    return new DateTimeRange(date.atTime(startTime), date.atTime(endTime));
   }
 
   public static DateTimeRange allDay(LocalDate date) {
-    return new DateTimeRange(date.atTime(LocalTime.MIDNIGHT),
-                             date.atTime(LocalTime.MIDNIGHT).plusDays(1));
+    return new DateTimeRange(
+        date.atTime(LocalTime.MIDNIGHT), date.atTime(LocalTime.MIDNIGHT).plusDays(1));
   }
 
   public LocalDateTime getStartDateTime() {
@@ -53,7 +50,8 @@ public final class DateTimeRange implements Comparable<DateTimeRange>, Serializa
       return false;
     }
 
-    return startDateTime.compareTo(dateTimeRange.getEndDateTime()) <= 0 && endDateTime.compareTo(dateTimeRange.getStartDateTime()) >= 0;
+    return startDateTime.compareTo(dateTimeRange.getEndDateTime()) <= 0
+        && endDateTime.compareTo(dateTimeRange.getStartDateTime()) >= 0;
   }
 
   public boolean overlapsExclusive(DateTimeRange dateTimeRange) {
@@ -61,11 +59,13 @@ public final class DateTimeRange implements Comparable<DateTimeRange>, Serializa
       return false;
     }
 
-    return startDateTime.isBefore(dateTimeRange.getEndDateTime()) && endDateTime.isAfter(dateTimeRange.getStartDateTime());
+    return startDateTime.isBefore(dateTimeRange.getEndDateTime())
+        && endDateTime.isAfter(dateTimeRange.getStartDateTime());
   }
 
   public boolean overlapsCompletely(DateTimeRange dateTimeRange) {
-    return dateTimeRange.getStartDateTime().compareTo(startDateTime) >= 0 && dateTimeRange.getEndDateTime().compareTo(endDateTime) <= 0;
+    return dateTimeRange.getStartDateTime().compareTo(startDateTime) >= 0
+        && dateTimeRange.getEndDateTime().compareTo(endDateTime) <= 0;
   }
 
   public Duration overlapDuration(DateTimeRange otherRange) {
@@ -79,7 +79,8 @@ public final class DateTimeRange implements Comparable<DateTimeRange>, Serializa
       return null;
     }
 
-    LocalDateTime startOverlapDateTime = DTUtil.latest(startDateTime, otherRange.getStartDateTime());
+    LocalDateTime startOverlapDateTime =
+        DTUtil.latest(startDateTime, otherRange.getStartDateTime());
     LocalDateTime endOverlapDateTime = DTUtil.earliest(endDateTime, otherRange.getEndDateTime());
 
     return DateTimeRange.of(startOverlapDateTime, endOverlapDateTime);
@@ -110,7 +111,7 @@ public final class DateTimeRange implements Comparable<DateTimeRange>, Serializa
   }
 
   public double getFractionalHours() {
-    return (double)getDuration().getSeconds() / (double)DateTimeConstants.SECONDS_PER_HOUR;
+    return (double) getDuration().getSeconds() / (double) DateTimeConstants.SECONDS_PER_HOUR;
   }
 
   @Override

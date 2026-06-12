@@ -1,7 +1,6 @@
 package com.stano.datetimerange;
 
 import com.stano.datetime.DateTimeConstants;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Iterator;
@@ -11,24 +10,30 @@ public final class DateTimeRangeWithPeriodLength implements Iterable<LocalDateTi
   private final DateTimeRange dateTimeRange;
   private final int periodLengthInMinutes;
 
-  public static DateTimeRangeWithPeriodLength of(DateTimeRange dateTimeRange, int periodLengthInMinutes) {
+  public static DateTimeRangeWithPeriodLength of(
+      DateTimeRange dateTimeRange, int periodLengthInMinutes) {
     return new DateTimeRangeWithPeriodLength(dateTimeRange, periodLengthInMinutes);
   }
 
-  public static DateTimeRangeWithPeriodLength of(LocalDateTime startDateTime, LocalDateTime endDateTime, int periodLengthInMinutes) {
-    return new DateTimeRangeWithPeriodLength(DateTimeRange.of(startDateTime, endDateTime), periodLengthInMinutes);
+  public static DateTimeRangeWithPeriodLength of(
+      LocalDateTime startDateTime, LocalDateTime endDateTime, int periodLengthInMinutes) {
+    return new DateTimeRangeWithPeriodLength(
+        DateTimeRange.of(startDateTime, endDateTime), periodLengthInMinutes);
   }
 
   public int getStartIndex() {
     LocalDateTime startDateTime = dateTimeRange.getStartDateTime();
 
-    return (startDateTime.getHour() * DateTimeConstants.MINUTES_PER_HOUR + startDateTime.getMinute()) / periodLengthInMinutes;
+    return (startDateTime.getHour() * DateTimeConstants.MINUTES_PER_HOUR
+            + startDateTime.getMinute())
+        / periodLengthInMinutes;
   }
 
   public int getEndIndex() {
     LocalDateTime endDateTime = dateTimeRange.getEndDateTime();
 
-    int endIndex = (endDateTime.getHour() * DateTimeConstants.MINUTES_PER_HOUR + endDateTime.getMinute());
+    int endIndex =
+        (endDateTime.getHour() * DateTimeConstants.MINUTES_PER_HOUR + endDateTime.getMinute());
 
     if (endDateTime.toLocalDate().isAfter(dateTimeRange.getStartDateTime().toLocalDate())) {
       endIndex += DateTimeConstants.MINUTES_PER_DAY;
@@ -46,7 +51,7 @@ public final class DateTimeRangeWithPeriodLength implements Iterable<LocalDateTi
       return false;
     }
 
-    DateTimeRangeWithPeriodLength that = (DateTimeRangeWithPeriodLength)o;
+    DateTimeRangeWithPeriodLength that = (DateTimeRangeWithPeriodLength) o;
 
     return dateTimeRange.equals(that.dateTimeRange);
   }
@@ -79,6 +84,6 @@ public final class DateTimeRangeWithPeriodLength implements Iterable<LocalDateTi
   }
 
   public int getNumberOfPeriodsInRange() {
-    return (int)(dateTimeRange.getDuration().toMinutes() / periodLengthInMinutes);
+    return (int) (dateTimeRange.getDuration().toMinutes() / periodLengthInMinutes);
   }
 }

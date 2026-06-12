@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalTime;
 
-/**
- * This class represents a range of times.
- */
+/** This class represents a range of times. */
 public final class TimeRange implements Comparable<TimeRange>, Serializable {
   private final LocalTime startTime;
   private final LocalTime endTime;
@@ -52,8 +50,10 @@ public final class TimeRange implements Comparable<TimeRange>, Serializable {
     if (timeRange == null) {
       return false;
     }
-    // If either range ends in Midnight then the checks need to be handled as a special case as Midnight evaluates to 0:00:00
-    //   which prevents the isOnOrBefore() and isOnOrAfter() methods in the 3rd Party Joda package from working as expected.
+    // If either range ends in Midnight then the checks need to be handled as a special case as
+    // Midnight evaluates to 0:00:00
+    //   which prevents the isOnOrBefore() and isOnOrAfter() methods in the 3rd Party Joda package
+    // from working as expected.
 
     if (endTime.equals(LocalTime.MIDNIGHT) && timeRange.getEndTime().equals(LocalTime.MIDNIGHT)) {
       return true;
@@ -67,7 +67,8 @@ public final class TimeRange implements Comparable<TimeRange>, Serializable {
       return timeRange.getStartTime().compareTo(endTime) <= 0;
     }
 
-    return startTime.compareTo(timeRange.getEndTime()) <= 0 && endTime.compareTo(timeRange.getStartTime()) >= 0;
+    return startTime.compareTo(timeRange.getEndTime()) <= 0
+        && endTime.compareTo(timeRange.getStartTime()) >= 0;
   }
 
   @Override
