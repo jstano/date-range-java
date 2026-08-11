@@ -1,87 +1,32 @@
+import com.stano.gradle.mavencentralpublish.MavenCentralPublishExtension
+
 plugins {
-  id("java-library")
-  id("groovy")
-  id("jacoco")
-  id("org.sonarqube") version "7.3.1.8318"
-  id("maven-publish")
-  id("signing")
-  id("com.diffplug.spotless") version "7.0.1"
+  id("com.stano.base")
+  id("com.stano.java-library")
+  id("com.stano.maven-central-publish")
+  id("com.stano.sonar")
 }
 
 dependencies {
   testImplementation("net.bytebuddy:byte-buddy:1.18.10")
-  testImplementation("org.apache.groovy:groovy-all:4.0.32")
   testImplementation("org.junit.jupiter:junit-jupiter:6.1.0")
   testImplementation("org.junit.platform:junit-platform-launcher:6.1.0")
   testImplementation("org.mockito:mockito-junit-jupiter:5.23.0")
-  testImplementation("org.spockframework:spock-core:2.4-groovy-4.0")
 }
 
-java {
-  withJavadocJar()
-  withSourcesJar()
-}
-
-publishing {
-  publications {
-    create<MavenPublication>("mavenJava") {
-      from(components["java"])
-      pom {
-        name.set("date-range")
-        description.set("A set of classes that implement ranges for dates, times, and date/times")
-        url.set("https://github.com/jstano/date-range-java")
-        licenses {
-          license {
-            name.set("APACHE LICENSE, VERSION 2.0")
-            url.set("https://www.apache.org/licenses/LICENSE-2.0")
-          }
-        }
-        developers {
-          developer {
-            id.set("jstano")
-            name.set("Jeff Stano")
-            email.set("jeff@stano.com")
-          }
-        }
-        scm {
-          connection.set("scm:git:https://github.com/jstano/date-range-java.git")
-          developerConnection.set("scm:git:ssh://git@github.com:jstano/date-range-java.git")
-          url.set("https://github.com/jstano/date-range-java")
-        }
-      }
-    }
-  }
-  repositories {
-    maven {
-      url = uri(layout.buildDirectory.dir("staging-deploy").get().toString())
-    }
-  }
-}
-
-signing {
-  sign(publishing.publications["mavenJava"])
-}
-
-sonar {
-  val extraProperties = extensions.extraProperties.properties
-  val sonarHost = extraProperties["com.stano.sonar.host"].toString()
-  val sonarToken = extraProperties["com.stano.sonar.token"].toString()
-
-  properties {
-    property("sonar.host.url", sonarHost)
-    property("sonar.token", sonarToken)
-    property("sonar.projectName", "date-range")
-    property("sonar.projectKey", "${project.group}:date-range")
-    property("sonar.projectVersion", project.version)
-  }
-}
-
-tasks.register<Zip>("zipStagingDeploy") {
-  archiveFileName.set("staging-deploy.zip")
-  destinationDirectory.set(layout.buildDirectory.dir("tmp"))
-  from("build/staging-deploy") {
-    include("**/*")
-  }
+extensions.configure<MavenCentralPublishExtension> {
+  componentName = "java"
+  pomName = "date-range"
+  pomDescription = "A set of classes that implement ranges for dates, times, and date/times"
+  pomUrl = "https://github.com/jstano/date-range-java"
+  licenseName = "APACHE LICENSE, VERSION 2.0"
+  licenseUrl = "https://www.apache.org/licenses/LICENSE-2.0"
+  developerId = "jstano"
+  developerName = "Jeff Stano"
+  developerEmail = "jeff@stano.com"
+  scmConnection = "scm:git:https://github.com/jstano/date-range-java.git"
+  scmDeveloperConnection = "scm:git:ssh://git@github.com:jstano/date-range-java.git"
+  scmUrl = "https://github.com/jstano/date-range-java"
 }
 
 configurations {
@@ -90,49 +35,8 @@ configurations {
   }
 }
 
-tasks.withType<JavaCompile>().configureEach {
-  options.compilerArgs = compilerOptions()
-  sourceCompatibility = "21"
-  targetCompatibility = "21"
-}
-tasks.withType<GroovyCompile>().configureEach {
-  options.compilerArgs = compilerOptions()
-  sourceCompatibility = "21"
-  targetCompatibility = "21"
-  groovyOptions.setParameters(true)
-}
-
-tasks.withType<Jar> {
-  exclude("**/.gitkeep")
-}
-tasks.withType<Javadoc>().configureEach {
-  (options as CoreJavadocOptions).addStringOption("Xdoclint:none", "-quiet")
-}
 tasks.withType<Test>().configureEach {
-  useJUnitPlatform()
-  jvmArgs("--add-opens", "java.base/java.lang.reflect=ALL-UNNAMED", "--add-opens", "java.base/java.lang=ALL-UNNAMED")
-  finalizedBy("jacocoTestReport")
-}
-tasks.withType<JacocoReport>().configureEach {
-  reports {
-    html.required.set(true)
-    xml.required.set(true)
-  }
-}
-
-spotless {
-  java {
-    target("src/**/*.java")
-    googleJavaFormat()
-    trimTrailingWhitespace()
-    endWithNewline()
-  }
-  groovy {
-    target("src/**/*.groovy")
-    greclipse()
-    trimTrailingWhitespace()
-    endWithNewline()
-  }
+  jvmArgs("--add-opens", "java.base/java.lang.reflect=ALL-UNNAMED")
 }
 
 tasks.register("formatCheck") {

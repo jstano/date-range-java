@@ -37,6 +37,10 @@ Artifacts will be written to build/staging-deploy and can be zipped with:
 ```bash
 ./gradlew zipStagingDeploy
 ```
+To publish the zipped bundle to Maven Central, run:
+```bash
+./gradlew publishToMavenCentral
+```
 If you prefer resolving from `mavenLocal()`, add it in your consuming project and copy/publish the artifacts to `~/.m2/repository` as needed. The coordinates are:
 ```
 com.stano:date-range:1.0.0-SNAPSHOT
@@ -111,9 +115,11 @@ DateTimeRange dtr = DateTimeRange.fromTimeRangeOnDate(tr, date);
 
 
 ## SonarQube (optional)
-The build includes a SonarQube plugin. To use it, provide the following properties (for example via gradle.properties or environment variables resolved into `com.stano.sonar.host` and `com.stano.sonar.token`):
-- sonar.host.url
-- sonar.token
+The build includes a SonarQube plugin. To use it, provide the following as Gradle properties or environment variables:
+- `sonar.host.url` (or `SONAR_HOST_URL`)
+- `sonar.token` (or `SONAR_TOKEN`)
+
+If neither is set, the plugin is skipped and the build is unaffected.
 
 Then run:
 ```bash
