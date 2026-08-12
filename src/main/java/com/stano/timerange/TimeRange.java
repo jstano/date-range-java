@@ -9,6 +9,13 @@ public final class TimeRange implements Comparable<TimeRange>, Serializable {
   private final LocalTime startTime;
   private final LocalTime endTime;
 
+  /**
+   * Creates a new TimeRange spanning the given start and end times.
+   *
+   * @param startTime The start time of the range.
+   * @param endTime The end time of the range.
+   * @return A new TimeRange with the given start and end times.
+   */
   public static TimeRange of(LocalTime startTime, LocalTime endTime) {
     return new TimeRange(startTime, endTime);
   }

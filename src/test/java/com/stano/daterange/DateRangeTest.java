@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -92,7 +93,7 @@ class DateRangeTest {
     assertTrue(dr.dateAt(4).isEmpty());
 
     // iterator yields each day
-    List<LocalDate> iterList = new java.util.ArrayList<>();
+    List<LocalDate> iterList = new ArrayList<>();
     for (LocalDate d : dr) {
       iterList.add(d);
     }
