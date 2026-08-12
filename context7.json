@@ -1,0 +1,16 @@
+{
+  "projectTitle": "date-range (Java)",
+  "description": "A set of classes that implement ranges for dates, times, and date/times",
+  "folders": [],
+  "excludeFolders": [],
+  "rules": [
+    "DateRange, TimeRange, and DateTimeRange are immutable value types; methods like next(), prior(), and the with* factories return new instances rather than modifying the receiver.",
+    "DateRange's accessors are getStartDate()/getEndDate(), not startDate()/endDate().",
+    "QuarterlyDateRange builds a rolling 3-calendar-month window anchored to the start date's own month, not a standard Jan/Apr/Jul/Oct calendar quarter.",
+    "AnnualDateRange.next()/prior() shift by full years via LocalDate.plusYears/minusYears; a range starting Feb 29 ends Feb 28 the following year, and repeated next() calls on such a range keep starting on Feb 28 afterward.",
+    "SemiAnnualDateRange.next()/prior() shift both the start and end dates by 6 months directly, so the day-of-month can shift across the boundary (e.g. Jun 30 + 6 months = Dec 30, not Dec 31).",
+    "DateTimeProvider is backed internally by a fixed UTCClock with no public setter; despite ConstantClock existing for tests, there is currently no public API to swap DateTimeProvider onto a different Clock.",
+    "TimeRange.overlaps() special-cases ranges ending exactly at LocalTime.MIDNIGHT (00:00): two ranges that both end at midnight are always considered overlapping, regardless of their start times.",
+    "All java.util.Date/java.sql.* conversions in JavaTimeUtil use the UTC time zone."
+  ]
+}
